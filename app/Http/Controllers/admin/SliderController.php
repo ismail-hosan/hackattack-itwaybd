@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Slider;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+
 
 class SliderController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +25,10 @@ class SliderController extends Controller
 
     public function index()
     {
-        return view('admin.pages.slider.index');
+        $datas = Slider::where('status',1)
+        ->orderByDesc('id')
+        ->get();
+        return view('admin.pages.slider.index',compact('datas'));
     }
 
     /**
@@ -30,7 +38,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.slider.add');
     }
 
     /**
@@ -41,7 +49,23 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+
+        $image = $request->image;
+        // dd($image);
+        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+
+        $image->move(public_path('/media/slider/'), $name_gen);
+        $save_url = ('media/slider/' . $name_gen);
+
+        Slider::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $save_url,
+        ]);
+        // session()->flash('toast_success', 'Operation successful!');
+        return Redirect()->route('slider_index');
     }
 
     /**

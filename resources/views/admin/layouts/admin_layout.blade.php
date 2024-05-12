@@ -117,6 +117,17 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{Route('video_index')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-speedometer"></i>
+              </span>
+              <span class="menu-title">Video</span>
+              <i class="menu-arrow"></i>
+            </a>
+          </li>
+
+
         </ul>
       </nav>
       <!-- partial -->
@@ -179,6 +190,7 @@
             </button>
           </div>
         </nav>
+
         <div class="main-panel">
             @yield('content')
             @include('admin.parsial.footer')
@@ -205,6 +217,8 @@
   <script src="{{ asset('assets/js/misc.js')}}"></script>
   <script src="{{ asset('assets/js/settings.js')}}"></script>
   <script src="{{ asset('assets/js/todolist.js')}}"></script>
+
+
   <!-- endinject -->
   <!-- Custom js for this page -->
   <script src="{{ asset('assets/js/proBanner.js')}}"></script>

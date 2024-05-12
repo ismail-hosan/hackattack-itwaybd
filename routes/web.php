@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\GameController;
 use App\Http\Controllers\admin\SliderController;
+use App\Http\Controllers\admin\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,18 @@ Route::post('/game/update', [GameController::class, 'update'])->name('game_updat
 
 //=============== Admin Slider ================//
 Route::get('/slider', [SliderController::class, 'index'])->name('slider_index');
+Route::get('/slider/add', [SliderController::class, 'create'])->name('slider_add');
+Route::post('/slider/store', [SliderController::class, 'store'])->name('slider_store');
+
+
+//=============== Admin video==============///
+Route::get('/video', [VideoController::class, 'index'])->name('video_index');
+Route::get('/video/add', [VideoController::class, 'create'])->name('video_create');
+Route::get('/video/edit/{id}', [VideoController::class, 'edit'])->name('video_show');
+Route::post('/video/store', [VideoController::class, 'store'])->name('video_store');
+Route::post('/video/update', [VideoController::class, 'update'])->name('video_update');
+Route::get('/video/delete/{id}', [VideoController::class, 'destroy'])->name('video_delete');
+
 
 
 

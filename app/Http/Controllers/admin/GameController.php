@@ -23,16 +23,17 @@ class GameController extends Controller
         return view('admin.pages.game.index');
     }
 
-    public function add($type)
+    public function add($types)
     {
 
-        $datas = Game::where('game_type',$type)
-        ->with('game_option')
-        ->get();
+        $datas = Game::where('game_type', $types)
+            ->with('game_option')
+            ->orderBy('id', 'desc')
+            ->get();
 
 
-        $type = $type;
-        return view('admin.pages.game.add',compact('type','datas'));
+        $type = $types;
+        return view('admin.pages.game.add', compact('type', 'datas'));
     }
 
     public function store(Request $request)
@@ -45,8 +46,7 @@ class GameController extends Controller
 
         $correct_option_index = $request->correct_option;
 
-        foreach($request->option as $index => $option)
-        {
+        foreach ($request->option as $index => $option) {
             $is_correct = $index == $correct_option_index ? 1 : 0;
             Game_option::insert([
                 'title_id' => $title_id,
@@ -64,7 +64,7 @@ class GameController extends Controller
         try {
             $game = Game::with('game_option')->findOrFail($id);
 
-            return view('admin.pages.game.edit',compact('game'));
+            return view('admin.pages.game.edit', compact('game'));
 
         } catch (ModelNotFoundException $exception) {
             // Handle the case where the model is not found
@@ -74,45 +74,45 @@ class GameController extends Controller
     }
 
 
-public function update(Request $request)
-{
+    public function update(Request $request)
+    {
 
-// dd($request->all());
-    $type = $request->type;
-    $id = $request->id;
+        // dd($request->all());
+        $type = $request->type;
+        $id = $request->id;
 
-    $game = Game::find($id);
+        $game = Game::find($id);
 
-    $game->title = $request->title;
-    $game->save(); // Save changes to the game
+        $game->title = $request->title;
+        $game->save(); // Save changes to the game
 
-    // Fetch related options for this game
-    $gameOptions = Game_option::where('title_id', $id)->get();
+        // Fetch related options for this game
+        $gameOptions = Game_option::where('title_id', $id)->get();
 
-    $correct_option_index = $request->correct_option;
+        $correct_option_index = $request->correct_option;
 
-    // Loop through each option received in the request
-    foreach ($request->option as $index => $option) {
-        // Check if the option exists in the database
-        $is_correct = $index == $correct_option_index ? 1 : 0;
+        // Loop through each option received in the request
+        foreach ($request->option as $index => $option) {
+            // Check if the option exists in the database
+            $is_correct = $index == $correct_option_index ? 1 : 0;
 
-        if(isset($gameOptions[$index])) {
-            // If it exists, update its name
-            $gameOptions[$index]->option_name = $option;
-            $gameOptions[$index]->is_right = $is_correct; // Changed to 'is_correct'
-            $gameOptions[$index]->save();
-        } else {
-            // If it doesn't exist, create a new option
-            Game_option::create([
-                'title_id' => $id,
-                'option_name' => $option,
-                'is_correct' => $is_correct, // Changed to 'is_correct'
-            ]);
+            if (isset($gameOptions[$index])) {
+                // If it exists, update its name
+                $gameOptions[$index]->option_name = $option;
+                $gameOptions[$index]->is_right = $is_correct; // Changed to 'is_correct'
+                $gameOptions[$index]->save();
+            } else {
+                // If it doesn't exist, create a new option
+                Game_option::create([
+                    'title_id' => $id,
+                    'option_name' => $option,
+                    'is_correct' => $is_correct, // Changed to 'is_correct'
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('game_add', $type);
-}
+        return redirect()->route('game_add', $type);
+    }
 
 
 
@@ -128,12 +128,12 @@ public function update(Request $request)
             $game->game_option()->delete();
             $game->delete();
 
-            return redirect()->back()->with('message','successfully!');
+            return redirect()->back()->with('message', 'successfully!');
 
         } catch (ModelNotFoundException $exception) {
             // Handle the case where the game is not found
             // For example, you can return a 404 response
-              return redirect()->back()->with('message','successfully!');
+            return redirect()->back()->with('message', 'successfully!');
         }
     }
 
