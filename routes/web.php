@@ -49,6 +49,10 @@ Route::post('/game/update', [GameController::class, 'update'])->name('game_updat
 Route::get('/slider', [SliderController::class, 'index'])->name('slider_index');
 Route::get('/slider/add', [SliderController::class, 'create'])->name('slider_add');
 Route::post('/slider/store', [SliderController::class, 'store'])->name('slider_store');
+Route::get('/slider/edit/{id}', [SliderController::class, 'edit'])->name('slider_show');
+Route::post('/slider/update', [SliderController::class, 'update'])->name('slider_update');
+Route::get('/slider/delete/{id}', [SliderController::class, 'destroy'])->name('slider_delete');
+
 
 
 //=============== Admin video==============///

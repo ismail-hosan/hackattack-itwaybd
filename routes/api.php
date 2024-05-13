@@ -1,6 +1,10 @@
 <?php
 
+
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\GameController;
+use App\Http\Controllers\api\SliderController;
+use App\Http\Controllers\api\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('{type}', [GameController::class, 'index']);
 Route::post('/scoreupdate', [GameController::class, 'scrorepdate']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('game/slider', [SliderController::class, 'index']);
+Route::get('game/video', [VideoController::class, 'index']);
+
 

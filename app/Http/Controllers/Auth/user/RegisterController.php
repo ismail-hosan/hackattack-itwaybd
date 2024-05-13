@@ -26,7 +26,8 @@ class RegisterController extends Controller
     $customer->name = $request->name;
     $customer->password = $password; // Assign the hashed password
     $customer->save();
-    return redirect()->route('')
+    $request->session()->regenerate();
+    return redirect('/');
 
     }
 }

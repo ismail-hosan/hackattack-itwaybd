@@ -16,6 +16,7 @@
                 <th> Description </th>
                 <th> Image </th>
                 <th> Status</th>
+                <th> Action</th>
               </tr>
             </thead>
             <tbody>
@@ -31,11 +32,33 @@
 
                 <td>
                     @if($data->status == 1)
-                        <a href="" class="btn btn-success">Active</a>
+                        <p class="text-success">Active</p>
                     @else
-                        <a href="" class="btn btn-warning">Active</a>
+                        <a href="" class="btn btn-warning">InActive</a>
                     @endif
                 </td>
+                <td>
+                    <div class="dropdown show">
+                        <a class="btn btn-success dropdown-toggle" href="#" role="button"
+                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Action
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                            @if($data->status == 1)
+                                <a class="dropdown-item" href="">InActive</a>
+                            @else
+                                <a class="dropdown-item" href="">Active</a>
+                            @endif
+                            <a class="dropdown-item" href="{{Route('slider_show', $data->id)}}">Edit</a>
+                            <a class="dropdown-item"
+                                href="{{Route('slider_delete', $data->id)}}">Delete</a>
+                        </div>
+                    </div>
+                </td>
+
               </tr>
 
               @endforeach

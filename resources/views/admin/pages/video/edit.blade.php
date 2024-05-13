@@ -32,7 +32,7 @@
                         <input type="text" class="form-control" name="url" id="exampleInputName1" value="{{$video->url}}"
                         placeholder="Video Url" required>
                     </div>
-                    <button type="submit" class="btn btn-primary me-2">Add Video</button>
+                    <button type="submit" class="btn btn-primary me-2">Update Video</button>
                     <button class="btn btn-dark">Cancel</button>
                 </form>
             </div>

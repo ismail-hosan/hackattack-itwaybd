@@ -100,34 +100,35 @@ class VideoController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
-        if($request->thamble_image)
-        {
-            $thamble_image = $request->thamble_image;
+    $id = $request->id;
+    $video = Video::findOrFail($id);
 
-            $name_gen = hexdec(uniqid()) . '.' . $thamble_image->getClientOriginalExtension();
-
-            $thamble_image->move(public_path('/media/thamble_image/'), $name_gen);
-            $save_url = ('media/thamble_image/' . $name_gen);
-
-            $video = Video::findOrFail($id);
-
-            $video->title = $request->title;
-            $video->url =  $request->url;
-            $video->thumble = $save_url;
-            $video->save();
-            // session()->flash('toast_success', 'Operation successful!');
-            return Redirect()->route('video_index');
+    // If a new thumbnail image is uploaded
+    if ($request->hasFile('thamble_image')) {
+        // Delete the previous thumbnail image from storage if it exists
+        $previousThamble = public_path($video->thumble);
+        if (file_exists($previousThamble)) {
+            unlink($previousThamble);
         }
-        else
-        {
-            $video = Video::findOrFail($id);
-            $video->title = $request->title;
-            $video->url =  $request->url;
-            $video->save();
-            return Redirect()->route('video_index');
-        }
+
+        // Upload the new thumbnail image
+        $thamble_image = $request->file('thamble_image');
+        $name_gen = hexdec(uniqid()) . '.' . $thamble_image->getClientOriginalExtension();
+        $thamble_image->move(public_path('/media/thamble_image/'), $name_gen);
+        $save_url = '/media/thamble_image/' . $name_gen;
+
+        $video->thumble = $save_url;
     }
+
+    // Update other fields
+    $video->title = $request->title;
+    $video->url = $request->url;
+    $video->save();
+
+    // Redirect to video index page
+    return redirect()->route('video_index');
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -138,6 +139,14 @@ class VideoController extends Controller
     public function destroy($id)
     {
         $video = Video::findOrFail($id);
+
+        // Delete the thumbnail image from storage if it exists
+        $thumblePath = public_path($video->thumble);
+        if (file_exists($thumblePath)) {
+            unlink($thumblePath);
+        }
+
+        // Delete the video entry
         $video->delete();
 
         return redirect()->route('video_index');

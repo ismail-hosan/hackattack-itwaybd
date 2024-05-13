@@ -87,7 +87,8 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+        return view('admin.pages.slider.edit',compact('slider'));
     }
 
     /**
@@ -97,19 +98,51 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+        $video = Slider::findOrFail($id);
+
+        // If a new image is uploaded
+        if ($request->hasFile('image')) {
+            // Delete the previous image from storage if it exists
+            $previousImage = public_path($video->image);
+            if (file_exists($previousImage)) {
+                unlink($previousImage);
+            }
+
+            // Upload the new image
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/media/slider/'), $name_gen);
+            $save_url = '/media/slider/' . $name_gen;
+
+            $video->image = $save_url;
+        }
+
+        // Update other fields
+        $video->title = $request->title;
+        $video->description = $request->description;
+        $video->save();
+
+        // Redirect to slider index page
+        return redirect()->route('slider_index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
-    {
-        //
+{
+    $slider = Slider::findOrFail($id);
+
+    // Delete the image from storage if it exists
+    $imagePath = public_path($slider->image);
+    if (file_exists($imagePath)) {
+        unlink($imagePath);
     }
+
+    // Delete the slider entry
+    $slider->delete();
+
+    return redirect()->route('slider_index');
+}
 }

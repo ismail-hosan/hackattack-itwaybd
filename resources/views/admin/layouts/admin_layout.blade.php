@@ -88,7 +88,7 @@
             </div>
           </li>
           <li class="nav-item nav-category">
-            <span class="nav-link">Navigation</span>
+                <br>
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" href="{{Route('home')}}">
