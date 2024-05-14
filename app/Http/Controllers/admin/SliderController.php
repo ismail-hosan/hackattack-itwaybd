@@ -57,7 +57,7 @@ class SliderController extends Controller
         $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
         $image->move(public_path('/media/slider/'), $name_gen);
-        $save_url = ('media/slider/' . $name_gen);
+        $save_url = ('/media/slider/' . $name_gen);
 
         Slider::create([
             'title' => $request->title,
@@ -107,6 +107,7 @@ class SliderController extends Controller
         if ($request->hasFile('image')) {
             // Delete the previous image from storage if it exists
             $previousImage = public_path($video->image);
+            // dd($previousImage);
             if (file_exists($previousImage)) {
                 unlink($previousImage);
             }

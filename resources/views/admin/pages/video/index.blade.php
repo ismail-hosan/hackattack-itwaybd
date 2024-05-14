@@ -15,7 +15,6 @@
                 <th>Title</th>
                 <th> Thamble Image </th>
                 <th> Url </th>
-                <th> Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -31,13 +30,6 @@
                 </td>
                 <td>
                     {{$data->url}}
-                </td>
-                <td>
-                    @if($data->status == 1)
-                        <p class="text-success">Active</p>
-                    @else
-                        <a href="" class="btn btn-warning">InActive</a>
-                    @endif
                 </td>
                 <td>
                     <div class="dropdown show">

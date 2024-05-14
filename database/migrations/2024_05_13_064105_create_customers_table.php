@@ -17,6 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('password');
+            $table->string('image')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class SliderController extends Controller
          foreach ($sliders as $slider) {
              $title = $slider->title;
              $desciption = $slider->description;
-             $image =  '/'.$slider->image;
+             $image =  $slider->image;
              $imageUrl = url($image);
              $images[] = [
                  'title' => $title,

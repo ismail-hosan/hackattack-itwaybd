@@ -1,22 +1,27 @@
 @extends('fontend.layout')
 @section('section')
 	<!-- Hero section -->
+<?php
+use App\Models\Slider;
+use App\Models\Video;
+
+$sliders = Slider::where('status', 1)->take(3)->get();
+$videos = Video::where('status',1)->take(5)->get();
+
+?>
+
 	<section class="hero-section overflow-hidden">
 		<div class="hero-slider owl-carousel">
-			<div class="hero-item set-bg d-flex align-items-center justify-content-center text-center" data-setbg="{{asset('font_assets/img/slider-bg-1.jpg')}}">
+            @foreach ($sliders as $slider)
+			<div class="hero-item set-bg d-flex align-items-center justify-content-center text-center" data-setbg="{{$slider->image}}">
 				<div class="container">
-					<h2>Game on!</h2>
-					<p>Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor,<br>sit amet elementum lorem. Ut cursus tempor turpis.</p>
+					<h2>{{$slider->title}}</h2>
+					<p>{{$slider->description}}</p>
 					<a href="#" class="site-btn">Read More  <img src="{{asset('font_assets/img/icons/double-arrow.png')}}" alt="#"/></a>
 				</div>
 			</div>
-			<div class="hero-item set-bg d-flex align-items-center justify-content-center text-center" data-setbg="{{asset('font_assets/img/slider-bg-2.jpg')}}">
-				<div class="container">
-					<h2>Game on!</h2>
-					<p>Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor,<br>sit amet elementum lorem. Ut cursus tempor turpis.</p>
-					<a href="#" class="site-btn">Read More  <img src="{{asset('font_assets/img/icons/double-arrow.png')}}" alt="#"/></a>
-				</div>
-			</div>
+            @endforeach
+
 		</div>
 	</section>
 	<!-- Hero section end-->
@@ -173,21 +178,35 @@
 			</div>
 		</div>
 	</section>
-	<!-- Blog section end -->
 
+	<!-- video section start-->
 
-	<!-- Intro section -->
-	<section class="intro-video-section set-bg d-flex align-items-end " data-setbg="{{asset('font_assets/img/promo-bg.jpg')}}">
-		<a href="https://www.youtube.com/watch?v=uFsGy5x_fyQ" class="video-play-btn video-popup"><img src="{{asset('font_assets/img/icons/solid-right-arrow.png')}}" alt="#"></a>
-		<div class="container">
-			<div class="video-text">
-				<h2>Promo video of the game</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-			</div>
-		</div>
-	</section>
-	<!-- Intro section end -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            @foreach($videos as $index => $video)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <section class="intro-video-section set-bg d-flex align-items-end" data-setbg="{{ $video['thumble'] }}">
+                        <a href="{{ $video->url }}" class="video-play-btn video-popup"><img src="{{ asset('font_assets/img/icons/solid-right-arrow.png') }}" alt="#"></a>
+                        <div class="container">
+                            <div class="video-text">
+                                <h2>{{ $video['title'] }}</h2>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            @endforeach
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 
+<!-- video section end-->
 
 	<!-- Featured section -->
 	<section class="featured-section">

@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\GameController;
+use App\Http\Controllers\api\ScoreController;
 use App\Http\Controllers\api\SliderController;
 use App\Http\Controllers\api\VideoController;
 use Illuminate\Http\Request;
@@ -28,5 +29,8 @@ Route::post('/scoreupdate', [GameController::class, 'scrorepdate']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('game/slider', [SliderController::class, 'index']);
 Route::get('game/video', [VideoController::class, 'index']);
+Route::post('/user', [AuthController::class, 'user']);
+Route::get('/user/leaderboard', [ScoreController::class, 'leaderboard']);
+
 
 

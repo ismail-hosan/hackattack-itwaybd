@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\GameController;
 use App\Http\Controllers\admin\SliderController;
 use App\Http\Controllers\admin\VideoController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,13 @@ Route::get('/video/delete/{id}', [VideoController::class, 'destroy'])->name('vid
 
 
 Route::post('/user/registation', [App\Http\Controllers\Auth\user\RegisterController::class, 'store'])->name('user_register');
+
+
+
+//=========== Fontend Route ================//
+Route::get('/contact', [ContactController::class,'index'])->name('contact');
+Route::post('/feedback', [ContactController::class,'feedback'])->name('contact_feedback');
+
 
 
 
