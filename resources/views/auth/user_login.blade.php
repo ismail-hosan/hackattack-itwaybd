@@ -25,9 +25,13 @@
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="row w-100">
           <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-start mb-3">Login</h3>
+                @if(Session::has('message'))
+                    <p class="alert alert-info">{{ Session::get('message') }}</p>
+                @endif
                 <form method="POST" action="{{Route('user_store')}}">
                 @csrf
                   <div class="form-group" style="margin-top:5.5rem">
@@ -40,7 +44,15 @@
                                     </span>
                                 @enderror
                   </div>
-                 <input type="hidden" value="12345678" name="password">
+                  <label>Password*</label>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" required autocomplete="password" autofocus>
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
                   <div class="form-group d-flex align-items-center justify-content-between">
 
                     <div class="form-check">

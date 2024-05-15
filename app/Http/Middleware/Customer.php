@@ -22,7 +22,7 @@ class Customer
         if(Auth::guard('customer')->check()){
             return redirect(RouteServiceProvider::CUSTOMER);
         }
-        return redirect('/register');
+        return redirect('/user/login');
 
     }
 }

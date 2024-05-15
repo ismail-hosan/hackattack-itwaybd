@@ -15,9 +15,9 @@ class Customer extends Authenticatable
         'name'
     ];
 
-    public function score()
+    public function scores()
     {
-        return $this->hasMany(Score::class, 'customer_id','id');
+        return $this->hasMany(Score::class);
     }
 
 }

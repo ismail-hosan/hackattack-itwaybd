@@ -61,6 +61,12 @@ p {
 	font-weight: 500;
 }
 
+.logoimage
+{
+    height: 50px;
+    width: 260px;
+}
+
 img {
 	max-width: 100%;
 }

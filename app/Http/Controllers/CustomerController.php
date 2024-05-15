@@ -15,7 +15,10 @@ class CustomerController extends Controller
 
 
 
-
+    public function profile()
+    {
+        return view('fontend.user_profile');
+    }
 
 
     /**

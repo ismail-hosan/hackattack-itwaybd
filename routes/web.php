@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\GameController;
 use App\Http\Controllers\admin\SliderController;
 use App\Http\Controllers\admin\VideoController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,7 @@ Route::post('/user/registation', [App\Http\Controllers\Auth\user\RegisterControl
 
 //=========== Fontend Route ================//
 Route::get('/contact', [ContactController::class,'index'])->name('contact');
+Route::get('/profile', [CustomerController::class,'profile'])->name('user_profile')->middleware('auth:customer');
 Route::post('/feedback', [ContactController::class,'feedback'])->name('contact_feedback');
 
 

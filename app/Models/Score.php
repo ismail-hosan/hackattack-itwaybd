@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Customer;
 
 class Score extends Model
 {
@@ -11,8 +12,7 @@ class Score extends Model
     protected $fillable = ['id', 'customer_id', 'game_type', 'score'];
 
 
-    public function customer()
-    {
-        return $this->hasOne(Customer::class, 'customer_id','id');
+    public function customer() {
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }

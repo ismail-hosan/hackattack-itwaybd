@@ -9,33 +9,111 @@ use Illuminate\Support\Facades\DB;
 
 class ScoreController extends Controller
 {
-    public function leaderboard()
+    public function leaderboard($game_type)
     {
 
-        $customers = Score::selectRaw('customer_id,game_type,AVG(score) as average_score')->groupBy('customer_id')->get();
+        // $customers = Score::selectRaw('customer_id,game_type,AVG(score) as average_score')
+        // ->groupBy('customer_id')
+        // ->with('customer')
+        // ->get();
+        $scores = [];
+    if($game_type == 'all')
+    {
+    $all_customers = Score::selectRaw('customer_id,SUM(score) as sum_score')
+    ->groupBy('customer_id')
+    ->orderBy('sum_score','DESC')
+    ->limit(10)
+    ->get();
 
-        dd($customers);
-        // $averageScoresByCustomerAndGameType = [];
+    // dd($all_customers);
 
-        // foreach ($customers as $customer) {
-        //     $customerId = $customer->customer_id;
-        //     $gameType = $customer->game_type;
-        //     $averageScore = $customer->average_score;
+        foreach ($all_customers as $customers) {
+            $score = $customers->sum_score ??'';
+            $name = $customers->customer->name ?? '';
+            $image = $customers->customer->image ?? '';
+            $scores[] = [
+               'name' => $name,
+                'score ' =>  $score,
+                'image' => $image,
+            ];
+        }
+    }
+    elseif($game_type == 'malware')
+    {
+        $all_customers = Score::selectRaw('customer_id,game_type, SUM(score) as sum_score')
+        ->groupBy('customer_id', 'game_type')
+        ->orderBy('sum_score', 'DESC')
+        ->where('game_type', 'malware') // Assuming you want to filter by game_type "matach"
+        ->limit(10)
+        ->get();
 
-        //     // Ensure customer ID exists as a key in the main array
-        //     if (!isset($averageScoresByCustomerAndGameType[$customerId])) {
-        //         $averageScoresByCustomerAndGameType[$customerId] = [];
-        //     }
+    // dd($all_customers);
 
-        //     // Store game type and average score under the customer ID
-        //     $averageScoresByCustomerAndGameType[$customerId][$gameType] = $averageScore;
-        // }
+        foreach ($all_customers as $customers) {
+            $score = $customers->sum_score ??'';
+            $name = $customers->customer->name ?? '';
+            $image = $customers->customer->image ?? '';
+            $scores[] = [
+                'name' => $name,
+                'score ' =>  $score,
+                'image' => $image,
+            ];
+        }
+    }
+    elseif($game_type == 'password_attack')
+    {
+        $all_customers = Score::selectRaw('customer_id,game_type, SUM(score) as sum_score')
+        ->groupBy('customer_id', 'game_type')
+        ->orderBy('sum_score', 'DESC')
+        ->where('game_type', 'password_attack') // Assuming you want to filter by game_type "matach"
+        ->limit(10)
+        ->get();
 
-        // return response()->json([
-        //     'success' => true,
-        //     'customer_id' => $customerId,
-        //     'leaderboard' => $averageScoresByCustomerAndGameType
-        // ]);
+    // dd($all_customers);
+
+        foreach ($all_customers as $customers) {
+            $score = $customers->sum_score ??'';
+            $name = $customers->customer->name ?? '';
+            $image = $customers->customer->image ?? '';
+            $scores[] = [
+                'name' => $name,
+                'score ' =>  $score,
+                'image' => $image,
+            ];
+        }
+    }
+    elseif($game_type == 'fishing')
+    {
+        $all_customers = Score::selectRaw('customer_id,game_type, SUM(score) as sum_score')
+        ->groupBy('customer_id', 'game_type')
+        ->orderBy('sum_score', 'DESC')
+        ->where('game_type', 'fishing') // Assuming you want to filter by game_type "matach"
+        ->limit(10)
+        ->get();
+
+    // dd($all_customers);
+
+        foreach ($all_customers as $customers) {
+            $score = $customers->sum_score ??'';
+            $name = $customers->customer->name ?? '';
+            $image = $customers->customer->image ?? '';
+            $scores[] = [
+                'name' => $name,
+                'score ' =>  $score,
+                'image' => $image,
+            ];
+        }
+    }
+    else
+    {
+        $scores[] = [
+            'message' =>  'Data Not Found',
+        ];
+    }
+
+
+        return response()->json($scores);
+
     }
 
     }

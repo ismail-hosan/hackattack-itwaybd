@@ -30,7 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('game/slider', [SliderController::class, 'index']);
 Route::get('game/video', [VideoController::class, 'index']);
 Route::post('/user', [AuthController::class, 'user']);
-Route::get('/user/leaderboard', [ScoreController::class, 'leaderboard']);
+Route::get('/user/leaderboard/{game_type}', [ScoreController::class, 'leaderboard']);
 
 
 

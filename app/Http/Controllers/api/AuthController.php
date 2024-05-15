@@ -26,34 +26,34 @@ class AuthController extends Controller
             ], 422);
         }
 
-            if(Auth::guard('customer')->attempt(['name' => $request->username, 'password' => $request->password])) {
-                $customer = Auth::guard('customer')->user();
-                $response = [
-                    'id' => $customer->id,
-                ];
+        if (Auth::guard('customer')->attempt(['name' => $request->username, 'password' => $request->password])) {
+            $customer = Auth::guard('customer')->user();
+            $response = [
+                'id' => $customer->id,
+            ];
 
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Login Successful',
-                    'data' => $response,
-                ]);
-            }else {
-                $password = Hash::make($request->password);
-                // dd($password);
-                $title_id = Customer::insertGetId([
-                    'name' => $request->username,
-                    'password' => $password,
-                ]);
-                 $response = [
-                    'id' => $title_id,
-                ];
+            return response()->json([
+                'success' => true,
+                'message' => 'Login Successful',
+                'data' => $response,
+            ]);
+        } else {
+            $password = Hash::make($request->password);
+            // dd($password);
+            $title_id = Customer::insertGetId([
+                'name' => $request->username,
+                'password' => $password,
+            ]);
+            $response = [
+                'id' => $title_id,
+            ];
 
-                return response()->json([
-                    'success' => true,
-                    'message' => 'user create successfully!',
-                    'data' => $response,
-                ]);
-            }
+            return response()->json([
+                'success' => true,
+                'message' => 'user create successfully!',
+                'data' => $response,
+            ]);
+        }
     }
 
     public function user(Request $request)
@@ -70,12 +70,21 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $customer = Customer::findOrFail($request->id);
-            return response()->json([
-                'success' => true,
-                'username' => $customer->name,
-                'image' => $customer->image ?? '',
-            ]);
+      $customers = Customer::with('scores')->findOrFail($request->id);
+      $total = count($customers->scores);
 
+      $malware = $customers->scores->where('game_type', 'malware')->count();
+      $fishing = $customers->scores->where('game_type', 'fishing')->count();
+      $hack_attack = $customers->scores->where('game_type', 'hack_attack')->count();
+
+        return response()->json([
+            'success' => true,
+            'username' => $customers->name,
+            'image' => $customers->image ?? '',
+            'total' => $total ?? '',
+            'malware' => $malware??'',
+            'fising' => $fishing ?? '',
+            'hack_attack' => $hack_attack ?? '',
+        ]);
     }
 }

@@ -8,7 +8,7 @@
             <img src="{{asset('font_assets/img/footer-right-pic.png')}}" alt="">
         </div>
         <a href="#" class="footer-logo">
-            <img src="{{asset('font_assets/img/logo.png')}}" alt="">
+            <img src="{{asset('font_assets/img/logo.png')}}" alt="" style="max-width: 8% !important;">
         </a>
         <ul class="main-menu footer-menu">
             <li><a href="">Home</a></li>
@@ -24,7 +24,7 @@
             <a href="#"><i class="fa fa-dribbble"></i></a>
             <a href="#"><i class="fa fa-behance"></i></a>
         </div>
-        <div class="copyright"><a href="">Colorlib</a> 2018 @ All rights reserved</div>
+        <div class="copyright"><a href="">Cyber Patrol</a> 2024 @ All rights reserved</div>
     </div>
 </footer>
 <!-- Footer section end -->
